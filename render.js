@@ -49,7 +49,7 @@ function main() {
     projMat = mat4.create();
     gl.uniformMatrix4fv (projUnif, false, projMat);
     viewMat = mat4.lookAt(mat4.create(),
-      vec3.fromValues (11, 3, 6),  // eye coord
+      vec3.fromValues (11, 4, 6),  // eye coord
       vec3.fromValues (0, 0, 1),  // gaze point
       vec3.fromValues (0, 0, 1)   // Z is up
     );
@@ -102,7 +102,20 @@ function main() {
                   case 70:
                   mat4.multiply(viewMat, mat4.fromXRotation(mat4.create(), glMatrix.toRadian(5)), viewMat);
                     break;
+                  case 49:
+                    mat4.lookAt(viewMat,vec3.fromValues(6,6,6),vec3.fromValues(0,0,0),vec3.fromValues(0,0,1));
+                    break;
+                  case 50:
+                  mat4.lookAt(viewMat,vec3.fromValues(-6,6,-6),vec3.fromValues(0,0,0),vec3.fromValues(0,0,1));
+                    break
+                  case 51:
+                  mat4.lookAt(viewMat,vec3.fromValues(6,6,-6),vec3.fromValues(0,0,0),vec3.fromValues(0,0,1));
+                    break;
+                  case 52:
+                  mat4.lookAt(viewMat,vec3.fromValues(6,-6,6),vec3.fromValues(0,0,0),vec3.fromValues(0,0,1));
+                    break;
                 }
+                console.log(event.keyCode);
                 window.requestAnimFrame(drawScene);
             });
 }
@@ -119,46 +132,9 @@ function drawScene() {
 }
 
 function createObject() {
- 
-  let obj = new PolygonalPrism(gl,
-      {
-        topRadius: 0.5,
-        bottomRadius: 0.5,
-        numSides: 8,
-        height: 1,
-        //topColor: vec3.fromValues(1,0,0),
-        //bottomColor: vec3.fromValues(1,1,1)
-      });
-  let cone = new Cone(gl, {
-    radius: 0.4,
-    height: 1.2
-  }); 
-  //let stuff = new Sphere(gl,1,3);
-  for(i = 0; i< 50;i++){
-    for(j =0; j < 50;j++){
-      var myRand = Math.floor(Math.random() * 2);
-      if(myRand < 1){
-        var myObj = new Cone(gl,{
-          radius: 0.4,
-          height: 1.2
-        })
-      }
-      else{
-        var myObj = new PolygonalPrism(gl,
-          {
-            topRadius: 0.5,
-            bottomRadius: 0.5,
-            numSides: 8,
-            height: 1,
-            //topColor: vec3.fromValues(1,0,0),
-            //bottomColor: vec3.fromValues(1,1,1)
-          });
-      }
-      mat4.translate(myObj.coordFrame,myObj.coordFrame, vec3.fromValues(i,j,0));
-      allObjs.push(myObj);
-   }
-  }
-  //mat4.translate (cone.coordFrame, cone.coordFrame, vec3.fromValues(3, 0, 0));
+    var myObj = new Creature(gl)
+  mat4.translate(myObj.coordFrame,myObj.coordFrame, vec3.fromValues(1,2,0));
+  allObjs.push(myObj);
 }
 
 function resizeWindow() {
