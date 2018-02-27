@@ -70,35 +70,37 @@ function main() {
                 switch(event.keyCode){
                   // Keycode W // Forward
                   case 87:
-                      mat4.translate(viewMat,viewMat,vec3.fromValues(.1,0,0))
+                      mat4.multiply(viewMat, mat4.fromTranslation(mat4.create(), vec3.fromValues(0,0,.5)), viewMat);
                       break;
                   // Keycode S // Move Backward
                   case 83:
-                    mat4.translate(viewMat,viewMat,vec3.fromValues(-.1,0,0));
-                    break;
+                    //at4.translate(viewMat,viewMat,vec3.fromValues(-.1,0,0));
+                      mat4.multiply(viewMat, mat4.fromTranslation(mat4.create(), vec3.fromValues(0,0,-.5)), viewMat);
+                      break;
                   // Keycode A // Rotate Left
                   case 65:
-                        mat4.rotateY(projMat,projMat,-.02);
-                        break;
+                        //mat4.rotateY(projMat,projMat,-.02);
+                      mat4.multiply(viewMat, mat4.fromYRotation(mat4.create(), glMatrix.toRadian(-5)), viewMat);
+                      break;
                   // Keycode D // Rotate Right
                   case 68:
-                      mat4.rotateY(projMat,projMat,.02);
+                      mat4.multiply(viewMat, mat4.fromYRotation(mat4.create(), glMatrix.toRadian(5)), viewMat);
                       break;
                   // Keycode Q // Rool Left
                   case 81:
-                      mat4.rotateX(projMat,projMat,.02);
+                  mat4.multiply(viewMat, mat4.fromZRotation(mat4.create(), glMatrix.toRadian(-5)), viewMat);
                     break;
                   // Keycode E // Roll Right
                   case 69:
-                    mat4.rotateX(projMat,projMat,-.02);
+                  mat4.multiply(viewMat, mat4.fromZRotation(mat4.create(), glMatrix.toRadian(5)), viewMat);
                     break;
                   // Keycode R // View Up 
                   case 82:
-                    mat4.rotateZ(projMat,projMat,.02);
+                  mat4.multiply(viewMat, mat4.fromXRotation(mat4.create(), glMatrix.toRadian(-5)), viewMat);
                     break;
                   // Keycode F // View Down
                   case 70:
-                    mat4.rotateZ(projMat,projMat,-.02);
+                  mat4.multiply(viewMat, mat4.fromXRotation(mat4.create(), glMatrix.toRadian(5)), viewMat);
                     break;
                 }
                 window.requestAnimFrame(drawScene);
