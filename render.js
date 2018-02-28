@@ -49,7 +49,7 @@ function main() {
     projMat = mat4.create();
     gl.uniformMatrix4fv (projUnif, false, projMat);
     viewMat = mat4.lookAt(mat4.create(),
-      vec3.fromValues (11, 4, 6),  // eye coord
+      vec3.fromValues (25, 25, 25),  // eye coord
       vec3.fromValues (0, 0, 1),  // gaze point
       vec3.fromValues (0, 0, 1)   // Z is up
     );
@@ -131,10 +131,50 @@ function drawScene() {
 }
 
 function createObject() {
-    var myObj = new xwing(gl)
-  //mat4.translate(myObj.coordFrame,myObj.coordFrame, vec3.fromValues(4,2,3));
-  allObjs.push(myObj);
+  for(let i = 0;i < 50; i++){
+    var myRand = (Math.floor((Math.random() * 100)) % 2) +1;
+    var randX = (Math.floor((Math.random() * 100)) % 50) +1;
+    var randY = (Math.floor((Math.random() * 100)) % 50) +1;
+    var randZ = (Math.floor((Math.random() * 100)) % 50) +1;
+    var ranAngle = (Math.floor((Math.random() * 100)) % 30) +1;
+    switch(myRand){
+      case 1:
+      var myRand2 =  (Math.floor((Math.random() * 100)) % 2) +1;
+        var myObj = new Squad(gl,myRand2);
+        mat4.translate(myObj.coordFrame,myObj.coordFrame,
+          vec3.fromValues(randX,randY,randZ));
+        mat4.rotateX(myObj.coordFrame,myObj.coordFrame,
+            glMatrix.toRadian(ranAngle));
+        allObjs.push(myObj);
+        break;
+      case 2:
+      var myRand2 =  (Math.floor((Math.random() * 100)) % 4) +1;
+        var myObj = new DogFight(gl,myRand2);
+        mat4.translate(myObj.coordFrame,myObj.coordFrame,
+          vec3.fromValues(randX,randY,randZ));
+        mat4.rotateX(myObj.coordFrame,myObj.coordFrame,
+            glMatrix.toRadian(ranAngle));
+        allObjs.push(myObj);
+        break;
+    }
+  }
+  for(let x = 0;x<50;x+=10){
+    for(let y = 0;y<50;y+=10){
+      for(let z = 0;z<50;z+=10){
+        let star = new Sphere(gl, {radius: 0.01, splitDepth: 4,
+          northColor: [1,1,1],
+          equatorColor: [1,1,1],
+          southColor: [1,1,1]
+          });
+        mat4.translate(star.coordFrame,star.coordFrame,vec3.fromValues(x,y,z));
+        console.log(x,y,z);
+        allObjs.push(star);
+      }
+    }   
+  } 
 
+ //et myObj = new DogFight(gl,1);
+ //allObjs.push(myObj);
 }
 
 function resizeWindow() {

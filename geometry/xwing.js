@@ -9,7 +9,7 @@ class xwing extends ObjectGroup {
         this.group.push(wingGroup);
         let wingTip = new Cone(gl,
             {radius:.1,
-                height:.2,
+                height:1,
                 radialDiv: 20,
                 tipColor: [100/255,100/255,100/255],
                 baseColor: [138/255,138/255,138/255]
