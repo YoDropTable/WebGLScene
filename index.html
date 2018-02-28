@@ -16,6 +16,8 @@
   <script src="geometry/PolygonalPrism.js"></script>
   <script src="geometry/Sphere.js"></script>
   <script src="geometry/Torus.js"></script>
+  <script src="geometry/TIE.js"></script>
+  <script src="geometry/xwing.js"></script>
   <script src="render.js"></script>
   <style>
     html {
@@ -27,6 +29,9 @@
       left: 0;
       right: 0;
     }
+    ul {
+      display: inline-block;
+    }
     #container {
       display: flex;
       flex-direction: row;
@@ -36,7 +41,7 @@
   </style>
 </head>
 <body onload="main()">
-  <h2>Cityscape</h2>
+  <h2>Moon Battle-Voyage</h2>
   <h2>Controls</h2>
  <ul>
    <li>W:Fordward</li>
@@ -47,6 +52,12 @@
    <li>E: Roll Right</li>
    <li>R: View Up</li>
    <li>F: View Down</li>
+</ul>
+<ul>
+  <li>1: Scene 1</li>
+  <li>2: Scene 2</li>
+  <li>3: Scene 3</li>
+  <li>4: Scene 4</li>
 </ul>
   <div id="container">
     <canvas id="my-canvas"></canvas>

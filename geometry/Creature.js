@@ -8,7 +8,8 @@ class Creature extends ObjectGroup {
     for (var k = 0; k < 4; k++) {
          let leg = new PolygonalPrism(gl, {
            topRadius: 0.05, bottomRadius: 0.06,
-           numSides: 20, height: 1.0
+           numSides: 20, height: 1.0, topColor: vec3.fromValues(128/255,128/255,128/255),
+           bottomColor: vec3.fromValues(128/255,128/255,128/255)
          });
          switch (k) {
            case 0:
@@ -17,7 +18,7 @@ class Creature extends ObjectGroup {
              break;
            case 1:
              mat4.translate(leg.coordFrame, leg.coordFrame,
-                 vec3.fromValues(-0.2, 0.75, 0));
+                 vec3.fromValues(-0.2, 0.75, 0))
              break;
            case 2:
              mat4.translate(leg.coordFrame, leg.coordFrame,

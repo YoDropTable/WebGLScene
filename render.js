@@ -103,19 +103,18 @@ function main() {
                   mat4.multiply(viewMat, mat4.fromXRotation(mat4.create(), glMatrix.toRadian(5)), viewMat);
                     break;
                   case 49:
-                    mat4.lookAt(viewMat,vec3.fromValues(6,6,6),vec3.fromValues(0,0,0),vec3.fromValues(0,0,1));
+                    mat4.lookAt(viewMat,vec3.fromValues(-6,0,0),vec3.fromValues(1,2,0),vec3.fromValues(0,0,1));
                     break;
                   case 50:
-                  mat4.lookAt(viewMat,vec3.fromValues(-6,6,-6),vec3.fromValues(0,0,0),vec3.fromValues(0,0,1));
+                  mat4.lookAt(viewMat,vec3.fromValues(6,0,0),vec3.fromValues(0,0,0),vec3.fromValues(0,0,1));
                     break
                   case 51:
-                  mat4.lookAt(viewMat,vec3.fromValues(6,6,-6),vec3.fromValues(0,0,0),vec3.fromValues(0,0,1));
+                  mat4.lookAt(viewMat,vec3.fromValues(0,6,0),vec3.fromValues(0,0,0),vec3.fromValues(0,0,1));
                     break;
                   case 52:
-                  mat4.lookAt(viewMat,vec3.fromValues(6,-6,6),vec3.fromValues(0,0,0),vec3.fromValues(0,0,1));
+                  mat4.lookAt(viewMat,vec3.fromValues(0,-6,0),vec3.fromValues(0,0,0),vec3.fromValues(0,0,1));
                     break;
                 }
-                console.log(event.keyCode);
                 window.requestAnimFrame(drawScene);
             });
 }
@@ -132,9 +131,10 @@ function drawScene() {
 }
 
 function createObject() {
-    var myObj = new Creature(gl)
-  mat4.translate(myObj.coordFrame,myObj.coordFrame, vec3.fromValues(1,2,0));
+    var myObj = new xwing(gl)
+  //mat4.translate(myObj.coordFrame,myObj.coordFrame, vec3.fromValues(4,2,3));
   allObjs.push(myObj);
+
 }
 
 function resizeWindow() {
