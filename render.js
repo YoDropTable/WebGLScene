@@ -11,7 +11,8 @@ let roll = 0;
 
 var projUnif;
 var projMat, viewMat;
-
+var battle;
+var mySquad;
 function main() {
   canvas = document.getElementById("my-canvas");
 
@@ -102,16 +103,13 @@ function main() {
                   case 70:
                   mat4.multiply(viewMat, mat4.fromXRotation(mat4.create(), glMatrix.toRadian(5)), viewMat);
                     break;
-                  case 49:
-                    mat4.lookAt(viewMat,vec3.fromValues(-6,0,0),vec3.fromValues(1,2,0),vec3.fromValues(0,0,1));
+                  case 49: //1
+                    mat4.lookAt(viewMat,vec3.fromValues(0,-10,0),vec3.fromValues(-10,-10,-8),vec3.fromValues(0,0,1));
                     break;
-                  case 50:
-                  mat4.lookAt(viewMat,vec3.fromValues(6,0,0),vec3.fromValues(0,0,0),vec3.fromValues(0,0,1));
-                    break
-                  case 51:
-                  mat4.lookAt(viewMat,vec3.fromValues(0,6,0),vec3.fromValues(0,0,0),vec3.fromValues(0,0,1));
+                  case 50: //2
+                  mat4.lookAt(viewMat,vec3.fromValues(-20,-10,-10),vec3.fromValues(-15,-10,-5),vec3.fromValues(0,0,1));
                     break;
-                  case 52:
+                  case 51: //3
                   mat4.lookAt(viewMat,vec3.fromValues(0,-6,0),vec3.fromValues(0,0,0),vec3.fromValues(0,0,1));
                     break;
                 }
@@ -125,12 +123,14 @@ function drawScene() {
   gl.uniformMatrix4fv(viewUnif,false,viewMat);
   gl.uniformMatrix4fv(projUnif,false,projMat)
   /* in the following three cases we rotate the coordinate frame by 1 degree */
+  //mat4.fromXRotation(battle.coordFrame,battle.coordFrame,
+   //   glMatrix.toRadian(1));
   for (var k = 0; k < allObjs.length; k++)
     allObjs[k].draw(gl);
-
 }
 
 function createObject() {
+  
   for(let i = 0;i < 50; i++){
     var myRand = (Math.floor((Math.random() * 100)) % 2) +1;
     var randX = (Math.floor((Math.random() * 100)) % 50) +1;
@@ -167,14 +167,28 @@ function createObject() {
           southColor: [1,1,1]
           });
         mat4.translate(star.coordFrame,star.coordFrame,vec3.fromValues(x,y,z));
-        console.log(x,y,z);
         allObjs.push(star);
       }
     }   
-  } 
-
- //et myObj = new DogFight(gl,1);
- //allObjs.push(myObj);
+  }
+  let Endor = new Sphere(gl,{radius: .5, splitDepth: 4,
+    northColor: [0,.5,0],
+    equatorColor: [0,.6,0],
+    southColor: [0,.3,0]
+  });
+  battle = new DogFight(gl,1);
+  mat4.translate(battle.coordFrame,battle.coordFrame,
+      vec3.fromValues(-2,-2,-2));
+  mySquad = new Squad(gl,1);
+  mat4.translate(mySquad.coordFrame,mySquad.coordFrame,
+    vec3.fromValues(-10,-10,-10));
+  var staticFight = new DogFight(gl,2);
+  mat4.translate(staticFight.coordFrame,staticFight.coordFrame,
+    vec3.fromValues(-15,-10,-5));
+  allObjs.push(Endor);
+  allObjs.push(battle);
+  allObjs.push(mySquad);
+  allObjs.push(staticFight);
 }
 
 function resizeWindow() {
