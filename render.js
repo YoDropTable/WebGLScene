@@ -12,13 +12,33 @@ let roll = 0;
 var projUnif;
 var projMat, viewMat;
 var battle;
-var battleTie;
-var battleXW1;
-var battleXW2;
-var battleWaitWhat;
 var mySquad;
+var staticFight;
+
+var scene1;
+var scene2;
+var scene3;
+var noscene;
+var sceneNum = 0;
 function main() {
   canvas = document.getElementById("my-canvas");
+    scene1 = document.getElementById("scene1");
+    scene2 = document.getElementById("scene2");
+    scene3 = document.getElementById("scene3");
+    noscene = document.getElementById("noscene");
+
+    noscene.addEventListener("click", function(){
+        sceneNum = 0;
+    });
+    scene1.addEventListener("click", function(){
+        sceneNum = 2;
+    });
+    scene2.addEventListener("click", function(){
+        sceneNum = 3;
+    });
+    scene3.addEventListener("click", function(){
+        sceneNum = 1;
+    });
 
   /* setup window resize listener */
   window.addEventListener('resize', resizeWindow);
@@ -72,24 +92,57 @@ function main() {
   /* Add listener for keys */
   document.addEventListener("keydown", 
             event => {
+            var xaxis = viewMat.slice(0, 3);
+            var yaxis = viewMat.slice(4, 7);
+            var zaxis = viewMat.slice(8, 11);
                 switch(event.keyCode){
                   // Keycode W // Forward
                   case 87:
-                      mat4.multiply(viewMat, mat4.fromTranslation(mat4.create(), vec3.fromValues(0,0,.5)), viewMat);
-                      break;
-                  // Keycode S // Move Backward
+                      if(sceneNum == 0)
+                        mat4.multiply(viewMat, mat4.fromTranslation(mat4.create(), vec3.fromValues(0,0,.5)), viewMat);
+                      else if(sceneNum == 1)
+                          mat4.multiply(battle.coordFrame, mat4.fromTranslation(mat4.create(), vec3.fromValues(zaxis[0], zaxis[1], zaxis[2])), battle.coordFrame);
+                        else if(sceneNum = 2)
+                          mat4.multiply(mySquad.coordFrame, mat4.fromTranslation(mat4.create(), vec3.fromValues(zaxis[0], zaxis[1], zaxis[2])), mySquad.coordFrame);
+                        else if(sceneNum == 3)
+                          mat4.multiply(staticFight.coordFrame, mat4.fromTranslation(mat4.create(), vec3.fromValues(zaxis[0], zaxis[1], zaxis[2])), staticFight.coordFrame);
+                        break;
+                      // Keycode S // Move Backward
                   case 83:
                     //at4.translate(viewMat,viewMat,vec3.fromValues(-.1,0,0));
-                      mat4.multiply(viewMat, mat4.fromTranslation(mat4.create(), vec3.fromValues(0,0,-.5)), viewMat);
+                      if(sceneNum == 0)
+                          mat4.multiply(viewMat, mat4.fromTranslation(mat4.create(), vec3.fromValues(0,0,-.5)), viewMat);
+                      else if(sceneNum == 1)
+                          mat4.multiply(battle.coordFrame, mat4.fromTranslation(mat4.create(), vec3.fromValues(-zaxis[0], -zaxis[1], -zaxis[2])), battle.coordFrame);
+                      else if(sceneNum = 2)
+                          mat4.multiply(mySquad.coordFrame, mat4.fromTranslation(mat4.create(), vec3.fromValues(-zaxis[0], -zaxis[1], -zaxis[2])), mySquad.coordFrame);
+                      else if(sceneNum == 3)
+                          mat4.multiply(staticFight.coordFrame, mat4.fromTranslation(mat4.create(), vec3.fromValues(-zaxis[0], -zaxis[1], -zaxis[2])), staticFight.coordFrame);
+
                       break;
                   // Keycode A // Rotate Left
                   case 65:
                         //mat4.rotateY(projMat,projMat,-.02);
+                      if(sceneNum == 0)
                       mat4.multiply(viewMat, mat4.fromYRotation(mat4.create(), glMatrix.toRadian(-5)), viewMat);
+                      else if(sceneNum == 1)
+                          mat4.multiply(battle.coordFrame, mat4.fromTranslation(mat4.create(), vec3.fromValues(xaxis[0], xaxis[1], xaxis[2])), battle.coordFrame);
+                      else if(sceneNum = 2)
+                          mat4.multiply(mySquad.coordFrame, mat4.fromTranslation(mat4.create(), vec3.fromValues(xaxis[0], xaxis[1], xaxis[2])), mySquad.coordFrame);
+                      else if(sceneNum == 3)
+                          mat4.multiply(staticFight.coordFrame, mat4.fromTranslation(mat4.create(), vec3.fromValues(xaxis[0], xaxis[1], xaxis[2])), staticFight.coordFrame);
+
                       break;
                   // Keycode D // Rotate Right
                   case 68:
+                      if(sceneNum == 0)
                       mat4.multiply(viewMat, mat4.fromYRotation(mat4.create(), glMatrix.toRadian(5)), viewMat);
+                      else if(sceneNum == 1)
+                          mat4.multiply(battle.coordFrame, mat4.fromTranslation(mat4.create(), vec3.fromValues(-xaxis[0], -xaxis[1], -xaxis[2])), battle.coordFrame);
+                      else if(sceneNum = 2)
+                          mat4.multiply(mySquad.coordFrame, mat4.fromTranslation(mat4.create(), vec3.fromValues(-xaxis[0], -xaxis[1], -xaxis[2])), mySquad.coordFrame);
+                      else if(sceneNum == 3)
+                          mat4.multiply(staticFight.coordFrame, mat4.fromTranslation(mat4.create(), vec3.fromValues(-xaxis[0], -xaxis[1], -xaxis[2])), staticFight.coordFrame);
                       break;
                   // Keycode Q // Rool Left
                   case 81:
@@ -101,12 +154,26 @@ function main() {
                     break;
                   // Keycode R // View Up 
                   case 82:
+                      if(sceneNum == 0)
                   mat4.multiply(viewMat, mat4.fromXRotation(mat4.create(), glMatrix.toRadian(-5)), viewMat);
-                    break;
+                      else if(sceneNum == 1)
+                          mat4.multiply(battle.coordFrame, mat4.fromTranslation(mat4.create(), vec3.fromValues(yaxis[0], yaxis[1], yaxis[2])), battle.coordFrame);
+                      else if(sceneNum = 2)
+                          mat4.multiply(mySquad.coordFrame, mat4.fromTranslation(mat4.create(), vec3.fromValues(yaxis[0], yaxis[1], yaxis[2])), mySquad.coordFrame);
+                      else if(sceneNum == 3)
+                          mat4.multiply(staticFight.coordFrame, mat4.fromTranslation(mat4.create(), vec3.fromValues(yaxis[0], yaxis[1], yaxis[2])), staticFight.coordFrame);
+                      break;
                   // Keycode F // View Down
                   case 70:
+                      if(sceneNum == 0)
                   mat4.multiply(viewMat, mat4.fromXRotation(mat4.create(), glMatrix.toRadian(5)), viewMat);
-                    break;
+                      else if(sceneNum == 1)
+                          mat4.multiply(battle.coordFrame, mat4.fromTranslation(mat4.create(), vec3.fromValues(-yaxis[0], -yaxis[1], -yaxis[2])), battle.coordFrame);
+                      else if(sceneNum = 2)
+                          mat4.multiply(mySquad.coordFrame, mat4.fromTranslation(mat4.create(), vec3.fromValues(-yaxis[0], -yaxis[1], -yaxis[2])), mySquad.coordFrame);
+                      else if(sceneNum == 3)
+                          mat4.multiply(staticFight.coordFrame, mat4.fromTranslation(mat4.create(), vec3.fromValues(-yaxis[0], -yaxis[1], -yaxis[2])), staticFight.coordFrame);
+                      break;
                   case 49: //1
                     mat4.lookAt(viewMat,vec3.fromValues(0,-10,0),vec3.fromValues(-10,-10,-8),vec3.fromValues(0,0,1));
                     break;
@@ -226,17 +293,13 @@ function createObject() {
     southColor: [0,.3,0]
   });
   battle = new DogFight(gl,1);
-  battleTie = battle.group[0];
-  battleXW1 = battle.group[1];
-  battleXW2 = battle.group[2];
-  battleWaitWhat = battle.group[3];
 
   mat4.translate(battle.coordFrame,battle.coordFrame,
       vec3.fromValues(-2,-2,-2));
   mySquad = new Squad(gl,1);
   mat4.translate(mySquad.coordFrame,mySquad.coordFrame,
     vec3.fromValues(-10,-10,-10));
-  var staticFight = new DogFight(gl,2);
+  staticFight = new DogFight(gl,2);
   mat4.translate(staticFight.coordFrame,staticFight.coordFrame,
     vec3.fromValues(-15,-10,-5));
   allObjs.push(Endor);
