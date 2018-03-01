@@ -11,7 +11,9 @@
   <script src="geometry/Arrow.js"></script>
   <script src="geometry/Axes.js"></script>
   <script src="geometry/Cone.js"></script>
-  <script src="geometry/Creature.js"></script>
+
+  <script src="geometry/Enterprise.js"></script>
+
   <script src="geometry/Olympic.js"></script>
   <script src="geometry/PolygonalPrism.js"></script>
   <script src="geometry/Sphere.js"></script>
@@ -40,6 +42,50 @@
       justify-content: center;
       background: lavender;
     }
+    /* Dropdown Button */
+    .dropbtn {
+      background-color: #3498DB;
+      color: white;
+      padding: 16px;
+      font-size: 16px;
+      border: none;
+      cursor: pointer;
+    }
+
+    /* Dropdown button on hover & focus */
+    .dropbtn:hover, .dropbtn:focus {
+      background-color: #2980B9;
+    }
+
+    /* The container <div> - needed to position the dropdown content */
+    .dropdown {
+      position: relative;
+      display: inline-block;
+    }
+
+    /* Dropdown Content (Hidden by Default) */
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      background-color: #f1f1f1;
+      min-width: 160px;
+      box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+      z-index: 1;
+    }
+
+    /* Links inside the dropdown */
+    .dropdown-content a {
+      color: black;
+      padding: 12px 16px;
+      text-decoration: none;
+      display: block;
+    }
+
+    /* Change color of dropdown links on hover */
+    .dropdown-content a:hover {background-color: #ddd}
+
+    /* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
+    .show {display:block;}
   </style>
 </head>
 <body onload="main()">
@@ -60,6 +106,14 @@
   <li>2: Scene 2</li>
   <li>3: Scene 3</li>
 </ul>
+  <div class="dropdown">
+    <button onclick="myFunction()" class="dropbtn">Dropdown</button>
+    <div id="myDropdown" class="dropdown-content">
+      <a href="#">Link 1</a>
+      <a href="#">Link 2</a>
+      <a href="#">Link 3</a>
+    </div>
+  </div>
   <div id="container">
     <canvas id="my-canvas"></canvas>
   </div>

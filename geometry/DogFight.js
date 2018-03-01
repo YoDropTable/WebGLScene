@@ -16,9 +16,23 @@ class DogFight extends ObjectGroup {
         var myAttack2 = new xwing(gl);
         mat4.translate(myAttack2.coordFrame,myAttack2.coordFrame,
           vec3.fromValues(-2.5,4,1));
+          var waitWhat = new Enterprise(gl);
+
+          mat4.translate(waitWhat.coordFrame, waitWhat.coordFrame,
+              vec3.fromValues(-0.175,12,1));
+          //scale ship size to smaller than og model
+          mat4.scale(waitWhat.coordFrame, waitWhat.coordFrame,
+              vec3.fromValues(0.5,0.5,0.5));
+          //rotate ship to face same way as others
+          mat4.rotateY(waitWhat.coordFrame,waitWhat.coordFrame,
+              glMatrix.toRadian(180));
+          mat4.rotateX(waitWhat.coordFrame,waitWhat.coordFrame,
+              glMatrix.toRadian(180));
+          //push models
         this.group.push(myTarget);
         this.group.push(myAttack);
         this.group.push(myAttack2);
+        this.group.push(waitWhat);
         for(var i = 0;i<4;i++){
           var laser = new PolygonalPrism(gl, {
             topRadius: .05, bottomRadius: .05,

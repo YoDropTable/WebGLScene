@@ -12,6 +12,10 @@ let roll = 0;
 var projUnif;
 var projMat, viewMat;
 var battle;
+var battleTie;
+var battleXW1;
+var battleXW2;
+var battleWaitWhat;
 var mySquad;
 function main() {
   canvas = document.getElementById("my-canvas");
@@ -112,6 +116,50 @@ function main() {
                   case 51: //3
                   mat4.lookAt(viewMat,vec3.fromValues(0,-6,0),vec3.fromValues(0,0,0),vec3.fromValues(0,0,1));
                     break;
+
+                    //testing
+                    case 52: //4- move away from camera
+        var xaxis = viewMat.slice(0, 3);
+        var yaxis = viewMat.slice(4, 7);
+        var zaxis = viewMat.slice(8, 11);
+                        mat4.multiply(battle.coordFrame, mat4.fromTranslation(mat4.create(), vec3.fromValues(zaxis[0], zaxis[1], zaxis[2])), battle.coordFrame);//mat4.fromTranslation(mat4.create(), vec3.fromValues(0,0,0.5)), battle.coordFrame);
+        
+                            break;
+                    case 53: //5- move towards camera
+        var xaxis = viewMat.slice(0, 3);
+        var yaxis = viewMat.slice(4, 7);
+        var zaxis = viewMat.slice(8, 11);
+        mat4.multiply(battle.coordFrame, mat4.fromTranslation(mat4.create(), vec3.fromValues(-zaxis[0], -zaxis[1], -zaxis[2])), battle.coordFrame);//mat4.fromTranslation(mat4.create(), vec3.fromValues(0,0,0.5)), battle.coordFrame);
+        var now = battle.coordFrame;
+        break;
+                    case 54: //6- move left
+        var xaxis = viewMat.slice(0, 3);
+        var yaxis = viewMat.slice(4, 7);
+        var zaxis = viewMat.slice(8, 11);
+        mat4.multiply(battle.coordFrame, mat4.fromTranslation(mat4.create(), vec3.fromValues(xaxis[0], xaxis[1], xaxis[2])), battle.coordFrame);//mat4.fromTranslation(mat4.create(), vec3.fromValues(0,0,0.5)), battle.coordFrame);
+        var now = battle.coordFrame;
+        break;
+    case 55: //7- move right
+        var xaxis = viewMat.slice(0, 3);
+        var yaxis = viewMat.slice(4, 7);
+        var zaxis = viewMat.slice(8, 11);
+        mat4.multiply(battle.coordFrame, mat4.fromTranslation(mat4.create(), vec3.fromValues(-xaxis[0], -xaxis[1], -xaxis[2])), battle.coordFrame);//mat4.fromTranslation(mat4.create(), vec3.fromValues(0,0,0.5)), battle.coordFrame);
+        var now = battle.coordFrame;
+        break;
+    case 56: //8- move up
+        var xaxis = viewMat.slice(0, 3);
+        var yaxis = viewMat.slice(4, 7);
+        var zaxis = viewMat.slice(8, 11);
+        mat4.multiply(battle.coordFrame, mat4.fromTranslation(mat4.create(), vec3.fromValues(yaxis[0], yaxis[1], yaxis[2])), battle.coordFrame);//mat4.fromTranslation(mat4.create(), vec3.fromValues(0,0,0.5)), battle.coordFrame);
+        var now = battle.coordFrame;
+        break;
+    case 57: //9- move down
+        var xaxis = viewMat.slice(0, 3);
+        var yaxis = viewMat.slice(4, 7);
+        var zaxis = viewMat.slice(8, 11);
+        mat4.multiply(battle.coordFrame, mat4.fromTranslation(mat4.create(), vec3.fromValues(-yaxis[0], -yaxis[1], -yaxis[2])), battle.coordFrame);//mat4.fromTranslation(mat4.create(), vec3.fromValues(0,0,0.5)), battle.coordFrame);
+        var now = battle.coordFrame;
+        break;
                 }
                 window.requestAnimFrame(drawScene);
             });
@@ -121,7 +169,7 @@ function drawScene() {
   gl.clear(gl.DEPTH_BUFFER_BIT | gl.COLOR_BUFFER_BIT);
 
   gl.uniformMatrix4fv(viewUnif,false,viewMat);
-  gl.uniformMatrix4fv(projUnif,false,projMat)
+  gl.uniformMatrix4fv(projUnif,false,projMat);
   /* in the following three cases we rotate the coordinate frame by 1 degree */
   //mat4.fromXRotation(battle.coordFrame,battle.coordFrame,
    //   glMatrix.toRadian(1));
@@ -130,7 +178,7 @@ function drawScene() {
 }
 
 function createObject() {
-  
+
   for(let i = 0;i < 50; i++){
     var myRand = (Math.floor((Math.random() * 100)) % 2) +1;
     var randX = (Math.floor((Math.random() * 100)) % 50) +1;
@@ -167,6 +215,7 @@ function createObject() {
           southColor: [1,1,1]
           });
         mat4.translate(star.coordFrame,star.coordFrame,vec3.fromValues(x,y,z));
+        //console.log(x,y,z);
         allObjs.push(star);
       }
     }   
@@ -177,6 +226,11 @@ function createObject() {
     southColor: [0,.3,0]
   });
   battle = new DogFight(gl,1);
+  battleTie = battle.group[0];
+  battleXW1 = battle.group[1];
+  battleXW2 = battle.group[2];
+  battleWaitWhat = battle.group[3];
+
   mat4.translate(battle.coordFrame,battle.coordFrame,
       vec3.fromValues(-2,-2,-2));
   mySquad = new Squad(gl,1);
@@ -187,6 +241,9 @@ function createObject() {
     vec3.fromValues(-15,-10,-5));
   allObjs.push(Endor);
   allObjs.push(battle);
+  // var test = battle.group[0];
+  //   mat4.scale(test.coordFrame, test.coordFrame,
+  //       vec3.fromValues(3,3,3));
   allObjs.push(mySquad);
   allObjs.push(staticFight);
 }
